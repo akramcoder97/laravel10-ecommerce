@@ -7,6 +7,7 @@ use App\Http\Controllers\ShopController;   // --- added
 use App\Http\Controllers\CartController;   // --- added
 use App\Http\Controllers\WishlistController;   // --- added
 use App\Http\Controllers\Auth\LoginController;   // --- added
+use App\Http\Controllers\CheckoutController;   // --- added
 
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,8 @@ Route::get('/wishlist',[WishlistController::class,'getWishlistedProducts'])->nam
 Route::get('/wishlist/remove',[WishlistController::class,'removeProductFromWishlist'])->name('wishlist.remove');
 Route::get('/wishlist/clear',[WishlistController::class,'clearWishlist'])->name('wishlist.clear');
 Route::post('/wishlist/move-to-cart',[WishlistController::class,'moveToCart'])->name('wishlist.move.to.cart');
+Route::get('/checkout',[CheckoutController::class,'index'])->name('checkout.index');
+Route::post('/placeorder',[CheckoutController::class,'placeOrder'])->name('place.order');
 
 
 /* ----Auth----- */
@@ -46,9 +49,13 @@ Route::middleware('auth')->group(function(){
 
 Route::middleware(['auth','auth.admin'])->group(function(){
     Route::get('/admin',[AdminController::class,'index'])->name('admin.index');
+    Route::get('/admin/produits',[AdminController::class,'productsIndex'])->name('admin.produits.index');
+    Route::post('/admin/produits',[AdminController::class,'addNewProduct'])->name('admin.produits.add');
+    Route::post('/admin/produits/update',[AdminController::class,'updateProduct'])->name('admin.produits.update');
+    Route::delete('/admin/produits/delete/{id}',[AdminController::class,'deleteProduct'])->name('admin.produits.delete');
+    Route::get('/admin/orders',[AdminController::class,'ordersIndex'])->name('admin.orders.index');
+
 });
 
-//Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-//Route::get('/logout',[Auth\AppController::class,'logout'])->name('logout');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 

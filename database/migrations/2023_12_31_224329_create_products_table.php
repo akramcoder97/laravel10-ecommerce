@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('SKU');
             $table->enum('stock_status',["instock","outofstock"]);  // enum tkhayar whda men bin 2valeurs
             $table->boolean('features')->default(false);
-            $table->unsignedInteger('quantity')->default(1);    // ma3naha onmy positive values
+            $table->unsignedInteger('quantity')->default(1);    // ma3naha only positive values
             $table->string('image');
             $table->text('images');
             $table->unsignedBigInteger('category_id');

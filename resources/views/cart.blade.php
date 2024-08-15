@@ -157,6 +157,7 @@
                                             <h6>Sub Total <span>${{cart::instance('cart')->subtotal()}}</span></h6>
                                             <h6>Tax <span>${{cart::instance('cart')->tax()}}</span></h6>
                                             <h6>Total <span>${{cart::instance('cart')->total()}}</span></h6>
+                        <!-- ideéé -->      <input type="hidden" value="{{cart::instance('cart')->total()}}">
                                         </div>
                                         <div class="bottom-details">
                                             <a href="checkout">Process Checkout</a>
