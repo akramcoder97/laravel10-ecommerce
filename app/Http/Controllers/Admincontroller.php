@@ -100,10 +100,11 @@ class Admincontroller extends Controller
         //return dd($update);
     }
 
-    public function deleteProduct($id)
+    public function destroy($id)
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->back()->with('message','produit ajouté avec succéss !');
+        //return redirect()->back()->with('message','produit ajouté avec succéss !');
+        return response()->json(['success' => 'Product deleted successfully']);
     }
-}
+} 

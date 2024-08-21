@@ -52,7 +52,7 @@ Route::middleware(['auth','auth.admin'])->group(function(){
     Route::get('/admin/produits',[AdminController::class,'productsIndex'])->name('admin.produits.index');
     Route::post('/admin/produits',[AdminController::class,'addNewProduct'])->name('admin.produits.add');
     Route::post('/admin/produits/update',[AdminController::class,'updateProduct'])->name('admin.produits.update');
-    Route::delete('/admin/produits/delete/{id}',[AdminController::class,'deleteProduct'])->name('admin.produits.delete');
+    Route::delete('/admin/produits/delete/{id}',[AdminController::class,'destroy'])->name('admin.produits.delete');
     Route::get('/admin/orders',[AdminController::class,'ordersIndex'])->name('admin.orders.index');
 
 });

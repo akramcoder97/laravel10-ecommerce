@@ -774,12 +774,14 @@
                       étes vous sur, vous voulez supprimer ce produit ?
                   </div>
                   <div class="modal-footer">
-                      <form id="deleteForm" method="POST">
+                      <!-- <form id="deleteForm" method="POST">
                           @csrf
                           @method('DELETE')
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                          <button type="submit" class="btn btn-danger">Supprimer</button>
-                      </form>
+                          <button type="submit" class="confirm-delete btn btn-danger">Supprimer</button>
+                      </form> -->
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                          <button type="submit" class="confirm-delete btn btn-danger">Supprimer</button>
                   </div>
               </div>
           </div>
@@ -815,7 +817,7 @@
                      </thead>
                      <tbody>
                      @foreach($products as $product)
-                       <tr>
+                       <tr id="product-{{ $product->id }}">
                          <td>
                            <div class="form-check form-check-muted m-0">
                              <label class="form-check-label">
@@ -841,7 +843,8 @@
                          <td class="d-none SKU"> {{$product->SKU}} </td>
                          <td>
                             <button id="ApopupButton" data-id="{{$product->id}}" class="EditButton btn btn-info"><i class="bi bi-pencil-square"></i></button>
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"  data-id="{{ $product->id }}">
+<!--                             <button type="button" class="btn btn-danger delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal"  data-id="{{ $product->id }}">
+ -->                             <button type="button" class="btn btn-danger delete-button" data-id="{{ $product->id }}"> 
                             <i class="bi bi-trash"></i>
                             </button>
                             <!-- <a class="btn btn-danger"><i class="bi bi-trash"></i></a> -->
@@ -1230,16 +1233,49 @@
         $('#e-status').val(status);
       })
 
-      /*---- delete modal ----*/
+     
+      // delete modal ---
+       $(document).ready(function() {
+        var deleteProductId;
+
+            // Open the delete modal and set the product ID
+            $('.delete-button').click(function() {
+                deleteProductId = $(this).data('id');
+                $('#deleteModal').modal('show');
+            });
+
+            // confirm deletion
+            $('.confirm-delete').click(function() {
+             
+                $.ajax({
+                    url: '/admin/produits/delete/' + deleteProductId,
+                    type: 'DELETE',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#deleteModal').modal('hide');
+                        $('#product-' + deleteProductId).remove();
+                    },
+                    error: function(response) {
+                        alert('Error deleting product');
+                    }
+                });
+            }); 
+      })
+     /*---- delete modal ----
       $(document).ready(function() {
-      $('#deleteModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget);
-        var id = button.data('id');
-        var action = '{{ route('admin.produits.delete', ':id') }}';
-        action = action.replace(':id', id);
-        $('#deleteForm').attr('action', action);
-      });
-    });
+        $('#deleteModal').on('show.bs.modal', function(event) {
+          var button = $(event.relatedTarget);
+          var id = button.data('id');
+          action = '{{ route('admin.produits.delete', ':id') }}';
+          action = action.replace(':id', id);
+          $('#deleteForm').attr('action', action);
+
+        });
+       
+      });*/
+
     </script>
 </body>
 </html>
